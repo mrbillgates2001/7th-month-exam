@@ -1,0 +1,51 @@
+.aside-left-wrapper {
+  max-width: 310px;
+  width: 100%;
+  background: linear-gradient(180deg, #000 9.09%, #121212 100%);
+  color: #fff !important;
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 40px;
+  height: 100vw !important;
+}
+.aside-left-wrapper .aside-left {
+  padding: 70px 0 0 30px;
+}
+.aside-left-wrapper .aside-left .aside-left-top {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+.aside-left-wrapper .aside-left .aside-left-top div {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.aside-left-wrapper .aside-left .aside-left-top div svg {
+  width: 32px;
+  height: 32px;
+}
+.aside-left-wrapper .aside-left .aside-left-top div span {
+  color: #fff !important;
+}
+.aside-left-wrapper .aside-left .aside-left-bottom ul {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 250px;
+}
+.aside-left-wrapper .aside-left .aside-left-bottom ul li a {
+  color: #fff;
+}
+.aside-left-wrapper .aside-left .aside-left-bottom ul li a :hover {
+  transition: all 0.3s ease;
+  color: #ffdd00 !important;
+}
+.aside-left-wrapper .ads {
+  padding: 0 0 0 5px;
+}
+.aside-left-wrapper .ads img {
+  width: 300px;
+}/*# sourceMappingURL=AsideLeft.css.map */

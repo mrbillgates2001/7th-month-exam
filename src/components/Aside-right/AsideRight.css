@@ -1,0 +1,48 @@
+.aside-right {
+  width: 310px;
+  background: linear-gradient(180deg, #000 9.09%, #121212 100%);
+  color: #fff;
+  padding: 29px 0 0 20px;
+  height: 100vw;
+}
+.aside-right .aside-right-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.aside-right .aside-right-top div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.aside-right .aside-right-top div span {
+  font-size: 20px;
+}
+.aside-right .aside-right-paragraph p {
+  font-size: 18px;
+  margin: 20px 0;
+}
+.aside-right .profile-unions {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.aside-right .profile-unions .profile-union {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.aside-right button {
+  border-radius: 40px;
+  background: #fff;
+  width: 233px;
+  height: 62px;
+  flex-shrink: 0;
+  color: #171717;
+  text-align: center;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 2.52px;
+}/*# sourceMappingURL=AsideRight.css.map */

@@ -1,0 +1,47 @@
+@font-face {
+	font-family: Circular_Std;
+	src: url("../fonts/circular-std-medium-500.ttf");
+}
+
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: Circular_Std;
+	list-style: none;
+	button {
+		cursor: pointer;
+	}
+}
+
+body {
+	background: #121212 !important;
+	color: #b3b3b3;
+}
+
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+	color: white !important;
+}
+
+a {
+	text-decoration: none;
+	cursor: pointer;
+}
+
+svg {
+	cursor: pointer;
+}
+
+.container {
+	max-width: 1000px;
+	width: 100%;
+	margin: 0 auto;
+	padding: 0 40px;
+}

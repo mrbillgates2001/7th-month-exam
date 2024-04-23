@@ -1,0 +1,32 @@
+.likes {
+	display: flex;
+	justify-content: space-between;
+
+	.likes-section {
+		// LIKES HEADER///////
+		width: 100% !important;
+		.likes-header {
+			padding: 20px 0;
+			background: #604ec1;
+
+			div {
+				display: flex;
+				gap: 15px;
+			}
+		}
+
+		// LIKES HERO ////////////
+		.likes-hero {
+			background: linear-gradient(180deg, #604ec1 20.09%, #121212 100%);
+			margin-bottom: 50px;
+			h1 {
+				color: #fff;
+				font-size: 90px;
+				font-style: normal;
+				font-weight: 900;
+				line-height: normal;
+				letter-spacing: -2.32px;
+			}
+		}
+	}
+}

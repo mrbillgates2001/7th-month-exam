@@ -1,0 +1,27 @@
+.playlist {
+  display: flex;
+  justify-content: space-between;
+}
+.playlist .playlist-section {
+  width: 100% !important;
+}
+.playlist .playlist-section .playlist-header {
+  padding: 20px 0;
+  background: #def628;
+}
+.playlist .playlist-section .playlist-header div {
+  display: flex;
+  gap: 15px;
+}
+.playlist .playlist-section .playlist-hero {
+  background: linear-gradient(180deg, #def628 1.09%, #121212 99.28%);
+  margin-bottom: 50px;
+}
+.playlist .playlist-section .playlist-hero h1 {
+  color: #fff;
+  font-size: 60px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  letter-spacing: -2.32px;
+}/*# sourceMappingURL=Playlists.css.map */

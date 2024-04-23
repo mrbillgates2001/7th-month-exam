@@ -1,0 +1,54 @@
+.waveform {
+  width: 100%;
+  max-width: 100%;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 50px;
+  padding: 15px 0;
+  position: fixed;
+  bottom: 0;
+}
+.waveform button {
+  border: none;
+  background: none;
+}
+.waveform .fileNameAndPicture {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.waveform .player-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+.waveform .audio-wave-slider {
+  width: 600px;
+  margin: 10px auto;
+  display: flex;
+  gap: 12px;
+}
+.waveform .audio-wave-slider input {
+  width: 100%;
+}
+.waveform .controls {
+  display: flex;
+  align-items: center;
+}
+.waveform .controls .btn-wrapper {
+  display: flex;
+  align-items: center !important;
+  gap: 12px;
+}
+
+.main-wrapper {
+  position: relative;
+}
+.main-wrapper .ads img {
+  position: absolute;
+  left: 0;
+  bottom: 140px;
+}/*# sourceMappingURL=AudioPlayer.css.map */

@@ -1,0 +1,27 @@
+.likes {
+  display: flex;
+  justify-content: space-between;
+}
+.likes .likes-section {
+  width: 100% !important;
+}
+.likes .likes-section .likes-header {
+  padding: 20px 0;
+  background: #604ec1;
+}
+.likes .likes-section .likes-header div {
+  display: flex;
+  gap: 15px;
+}
+.likes .likes-section .likes-hero {
+  background: linear-gradient(180deg, #604ec1 20.09%, #121212 100%);
+  margin-bottom: 50px;
+}
+.likes .likes-section .likes-hero h1 {
+  color: #fff;
+  font-size: 90px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  letter-spacing: -2.32px;
+}/*# sourceMappingURL=Likes.css.map */
