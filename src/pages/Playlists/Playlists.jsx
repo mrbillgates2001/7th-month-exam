@@ -5,7 +5,8 @@ import AsideRight from "../../components/Aside-right/AsideRight";
 import AudioPlayer from "../../components/Player/AudioPlayer";
 import { ads, likesIcon, play, profilePic } from "../../assets/images/images";
 import { Table } from "react-bootstrap";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import Playlist from "./Playlist";
 
 const ClientID = "d5dd08dd0c134753938cf2e40ebfb597";
 const ClientSecret = "e07ac3a41f604a2f92387f1b8288ce01";
@@ -35,11 +36,7 @@ const Playlists = () => {
 	const [music, setMusic] = useState([]);
 	const navigate = useNavigate();
 	const [liked, setLiked] = useState(false);
-
-	const handleAddToFavorites = () => {
-		addToCart(musiqa);
-		console.log(musiqa);
-	};
+	const [favorites, setFavorites] = useState([]);
 
 	const { id } = useParams();
 
@@ -84,10 +81,16 @@ const Playlists = () => {
 		openMusic();
 	}, []);
 
-	// const like = () => {
-	// 	setLiked(!liked);
-	// 	console.log(liked);
-	// };
+	
+
+	const handleAddToFavorites = (id) => {
+		setLiked(!liked);
+		setFavorites([...favorites, id]);
+		const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+		localStorage.setItem("favorites", JSON.stringify([...favorites, id]));
+	};
+
+	console.log(favorites);
 
 	return (
 		<div>
@@ -285,10 +288,10 @@ const Playlists = () => {
 									style={{ fontSize: "14px" }}>
 									<thead>
 										<tr>
-											<th></th>
 											<th>#</th>
 											<th>TITLE</th>
 											<th>ALBUM</th>
+											<th></th>
 											<th></th>
 											<th>
 												<svg
@@ -315,82 +318,13 @@ const Playlists = () => {
 										</tr>
 									</thead>
 									{music.map((music, index) => (
-										<tbody key={music.id}>
-											<tr>
-												<td>
-													<button
-														style={{
-															background: "none",
-															border: "none",
-															outline: "none",
-															cursor: "pointer",
-														}}>
-														<img src={play} alt="" width={50} />
-													</button>
-												</td>
-												<td style={{ textAlign: "center", paddingTop: "18px" }}>
-													{index + 1}
-												</td>
-												<td
-													style={{
-														display: "flex",
-														alignItems: "center",
-														gap: "10px",
-													}}>
-													<img
-														src={music.track.album.images[0].url}
-														alt=""
-														width={52}
-														height={52}
-													/>
-													<span
-														style={{
-															display: "flex",
-															flexDirection: "column",
-														}}>
-														<span>{music.track.name}</span>
-														<span style={{ fontSize: "12px", color: "gray" }}>
-															{music.track.artists[0].name}
-														</span>
-													</span>
-												</td>
-												<td style={{ paddingTop: "18px" }}>
-													{music.track.album.name}
-												</td>
-
-												<td style={{ paddingTop: "18px" }}>
-													<span onClick={(id) => setLiked(music.id === id)}>
-														{/* <svg
-															xmlns="http://www.w3.org/2000/svg"
-															width="28"
-															height="28"
-															viewBox="0 0 28 28"
-															fill="none">
-															<g clipPath="url(#clip0_119_469)">
-																<path
-																	d="M14.0009 6.03963C16.4673 3.74352 20.2787 3.81973 22.6548 6.28786C25.0299 8.75708 25.1118 12.6895 22.9026 15.2546L13.9988 24.5L5.09703 15.2546C2.88787 12.6895 2.97082 8.75055 5.34482 6.28786C7.72303 3.823 11.5271 3.74025 14.0009 6.03963Z"
-																	fill="#63CF6C"
-																/>
-															</g>
-															<defs>
-																<clipPath id="clip0_119_469">
-																	<rect width="28" height="28" fill="white" />
-																</clipPath>
-															</defs>
-														</svg> */}
-														{liked ? "liked" : "dislike"}
-													</span>
-												</td>
-												<td style={{ paddingTop: "18px" }}>
-													{"0" +
-														Math.floor(music.track.duration_ms / 60000) +
-														":" +
-														((music.track.duration_ms % 60000) / 1000).toFixed(
-															0
-														)}
-												</td>
-											</tr>
-										</tbody>
+										<Playlist
+											key={music.track.id}
+											music={music}
+											index={index}
+											handleAddToFavorites={handleAddToFavorites}
+											liked={liked}
+										/>
 									))}
 								</Table>
 							</div>

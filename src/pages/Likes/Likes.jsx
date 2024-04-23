@@ -1,14 +1,85 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import "./Likes.scss";
 import AsideLeft from "../../components/Aside-left/AsideLeft";
 import AsideRight from "../../components/Aside-right/AsideRight";
 import AudioPlayer from "../../components/Player/AudioPlayer";
 import { ads, likesIcon, play, profilePic } from "../../assets/images/images";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { usePlaylistStore } from "../../app/playlistStore";
 
-const Likes = () => {
+const ClientID = "d5dd08dd0c134753938cf2e40ebfb597";
+const ClientSecret = "e07ac3a41f604a2f92387f1b8288ce01";
+
+const getToken = async () => {
+	try {
+		const res = await fetch("https://accounts.spotify.com/api/token", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/x-www-form-urlencoded",
+				Authorization: "Basic " + btoa(ClientID + ":" + ClientSecret),
+			},
+			body: "grant_type=client_credentials",
+		});
+		const data = await res.json();
+		localStorage.setItem(
+			"access_token",
+			`${data.token_type} ${data.access_token}`
+		);
+	} catch (error) {
+		console.log(error.message);
+	}
+};
+
+const Likes = ({}) => {
 	const navigate = useNavigate();
+	const [playlist, setPlaylist] = useState([]);
+	const [music, setMusic] = useState([]);
+	const [liked, setLiked] = useState(false);
+	const { id } = useParams();
+
+	const openPlayList = async () => {
+		try {
+			const res = await fetch(`https://api.spotify.com/v1/playlists/${id}`, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: localStorage.getItem("access_token"),
+				},
+			});
+			const data = await res.json();
+
+			setPlaylist(data);
+		} catch (error) {
+			console.log(error.message);
+		}
+	};
+
+	const openMusic = async () => {
+		try {
+			const res = await fetch(`https://api.spotify.com/v1/playlists/${id}`, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: localStorage.getItem("access_token"),
+				},
+			});
+			const data = await res.json();
+			// console.log(data);
+
+			setMusic(data.tracks.items);
+		} catch (error) {
+			console.log(error.message);
+		}
+	};
+
+	useEffect(() => {
+		getToken();
+		openPlayList();
+		openMusic();
+	}, []);
+
+	const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
 	return (
 		<div>
@@ -108,7 +179,7 @@ const Likes = () => {
 											<path
 												d="M26.0023 12.9237L25.1506 12.132C21.0545 8.32467 14.7686 8.45914 10.826 12.545C6.87682 16.6417 6.7286 23.2093 10.3911 27.4886L25.9978 43.6979L41.6083 27.4885C45.2702 23.2099 45.1251 16.6539 41.1727 12.5444L26.0023 12.9237ZM26.0023 12.9237L26.8533 12.1314M26.0023 12.9237L26.8533 12.1314M26.8533 12.1314C30.9367 8.32997 37.2348 8.45444 41.1723 12.544L26.8533 12.1314Z"
 												stroke="white"
-												stroke-width="2.5"
+												strokeWidth="2.5"
 											/>
 										</g>
 										<defs>
@@ -130,7 +201,7 @@ const Likes = () => {
 												cy="26"
 												r="17.75"
 												stroke="white"
-												stroke-width="2.5"
+												strokeWidth="2.5"
 											/>
 											<path
 												fillRule="evenodd"
@@ -207,10 +278,10 @@ const Likes = () => {
 									style={{ fontSize: "14px" }}>
 									<thead>
 										<tr>
+											<th></th>
 											<th>#</th>
 											<th>TITLE</th>
 											<th>ALBUM</th>
-											<th>DATE ADDED</th>
 											<th></th>
 											<th>
 												<svg
@@ -236,51 +307,64 @@ const Likes = () => {
 											</th>
 										</tr>
 									</thead>
-									<tbody>
-										<tr>
-											<td style={{ textAlign: "center", paddingTop: "18px" }}>
-												1
-											</td>
-											<td
-												style={{
-													display: "flex",
-													alignItems: "center",
-													gap: "10px",
-												}}>
-												<img src={ads} alt="" width={52} height={52} />
-												<span
-													style={{ display: "flex", flexDirection: "column" }}>
-													<span>Play It Safe</span>
-													<span style={{ fontSize: "12px", color: "gray" }}>
-														Julia Wolf
+									{favorites.map((music, index) => (
+										<tbody key={music.id}>
+											<tr>
+												<td>
+													<button
+														style={{
+															background: "none",
+															border: "none",
+															outline: "none",
+															cursor: "pointer",
+														}}>
+														<img src={play} alt="" width={50} />
+													</button>
+												</td>
+												<td style={{ textAlign: "center", paddingTop: "18px" }}>
+													{index + 1}
+												</td>
+												<td
+													style={{
+														display: "flex",
+														alignItems: "center",
+														gap: "10px",
+													}}>
+													<img
+														src={"music.track.album.images[0].url"}
+														alt=""
+														width={52}
+														height={52}
+													/>
+													<span
+														style={{
+															display: "flex",
+															flexDirection: "column",
+														}}>
+														<span>{music.track.name}</span>
+														<span style={{ fontSize: "12px", color: "gray" }}>
+															{music.track.artists[0].name}
+														</span>
 													</span>
-												</span>
-											</td>
-											<td style={{ paddingTop: "18px" }}>Play It Safe</td>
-											<td></td>
-											<td style={{ paddingTop: "18px" }}>
-												<svg
-													xmlns="http://www.w3.org/2000/svg"
-													width="28"
-													height="28"
-													viewBox="0 0 28 28"
-													fill="none">
-													<g clipPath="url(#clip0_119_469)">
-														<path
-															d="M14.0009 6.03963C16.4673 3.74352 20.2787 3.81973 22.6548 6.28786C25.0299 8.75708 25.1118 12.6895 22.9026 15.2546L13.9988 24.5L5.09703 15.2546C2.88787 12.6895 2.97082 8.75055 5.34482 6.28786C7.72303 3.823 11.5271 3.74025 14.0009 6.03963Z"
-															fill="#63CF6C"
-														/>
-													</g>
-													<defs>
-														<clipPath id="clip0_119_469">
-															<rect width="28" height="28" fill="white" />
-														</clipPath>
-													</defs>
-												</svg>
-											</td>
-											<td style={{ paddingTop: "18px" }}>02:00</td>
-										</tr>
-									</tbody>
+												</td>
+												<td style={{ paddingTop: "18px" }}>
+													{"music.track.album.name"}
+												</td>
+
+												<td style={{ paddingTop: "18px" }}>
+													<span>{liked ? "liked" : "disliked"}</span>
+												</td>
+												<td style={{ paddingTop: "18px" }}>
+													{"0" +
+														Math.floor(music.track.duration_ms / 60000) +
+														":" +
+														((music.track.duration_ms % 60000) / 1000).toFixed(
+															0
+														)}
+												</td>
+											</tr>
+										</tbody>
+									))}
 								</Table>
 							</div>
 						</div>

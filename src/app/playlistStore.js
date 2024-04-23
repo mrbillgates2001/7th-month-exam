@@ -42,31 +42,31 @@ const openPlayList = async (set) => {
 	} catch (error) {}
 };
 
+const openMusic = async (set) => {
+	try {
+		const res = await fetch(`https://api.spotify.com/v1/playlists/${id}`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: localStorage.getItem("access_token"),
+			},
+		});
+		const data = await res.json();
+		set((state) => ({
+			...state,
+			music: data.playlists.items,
+		}));
+	} catch (error) {
+		console.log(error.message);
+	}
+};
+
 const playlistStore = (set) => ({
 	playlist: [],
+	music: [],
 	getToken: () => getToken(),
 	openPlayList: () => openPlayList(set),
-
-
-	likedMusic: [],
-	addToCart: (musiqa) => {
-		set((state) => ({
-			...state,
-			cart: [...state.likedMusic, musiqa],
-		}));
-	},
-	removeFromCart: (musicID) => {
-		set((state) => ({
-			...state,
-			likedMusic: state.likedMusic.filter((musiqa) => musiqa.id !== musicID),
-		}));
-	},
-	clearCart: () => {
-		set((state) => ({
-			...state,
-			likedMusic: [],
-		}));
-	},
+	openMusic: () => openMusic(set),
 });
 
 export const usePlaylistStore = create(playlistStore);

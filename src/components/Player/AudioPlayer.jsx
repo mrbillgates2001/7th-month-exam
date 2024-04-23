@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import WaveSurfer from "wavesurfer.js";
+
 import {
 	ads,
 	pause,
@@ -11,8 +12,9 @@ import {
 	yulduz,
 } from "../../assets/images/images";
 import "./AudioPlayer.scss";
+import { usePlaylistStore } from "../../app/playlistStore";
 
-const formWaveSurferOptions = (ref) => ({
+const formWaveSurferOptions = (ref, AudioContext) => ({
 	container: ref,
 	waveColor: "#ccc",
 	progressColor: "#0178ff",
@@ -46,8 +48,14 @@ const AudioPlayer = () => {
 	const [volume, setVolume] = useState(0.5);
 	const [isMuted, setIsMuted] = useState(false);
 	const [audioFileName, setAudioFileName] = useState("");
+	const { music, getToken, openMusic } = usePlaylistStore();
+
+	// musicUrl = music.track.albums.preview_url;
 
 	useEffect(() => {
+		getToken();
+		openMusic();
+
 		const options = formWaveSurferOptions(waveformRef.current);
 		wavesurfer.current = WaveSurfer.create(options);
 
@@ -101,7 +109,6 @@ const AudioPlayer = () => {
 
 	return (
 		<div className="main-wrapper">
-
 			<div className="waveform">
 				<div className="fileNameAndPicture">
 					<img src={ads} alt="ads" width={70} />
