@@ -30,3 +30,33 @@
 		}
 	}
 }
+
+.like {
+	color: #63cf6c;
+	width: 22px;
+	height: 22px;
+	display: block;
+}
+
+.dislike {
+	width: 22px;
+	height: 22px;
+	color: #63cf6c;
+	// display: none;
+}
+
+.classjon {
+	display: none;
+	&:checked ~ label > .like {
+		display: none;
+	}
+	&:checked ~ label > .dislike {
+		display: block;
+	}
+}
+
+td label {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}

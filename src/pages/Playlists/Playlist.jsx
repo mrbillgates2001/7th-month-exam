@@ -9,6 +9,8 @@ import {
 	profilePic,
 } from "../../assets/images/images";
 import ReactAudioPlayer from "react-audio-player";
+import { FaRegHeart } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 
 const Playlist = ({ index, music, liked, handleAddToFavorites }) => {
 	////////////////////////////////////////////////
@@ -53,14 +55,16 @@ const Playlist = ({ index, music, liked, handleAddToFavorites }) => {
 									display: "flex",
 									flexDirection: "column",
 								}}>
-								<span style={{width: "100px"}}>{music.track.name}</span>
+								<span style={{ width: "100px" }}>{music.track.name.slice(0, 25)}</span>
 								<span style={{ fontSize: "12px", color: "gray" }}>
 									{music.track.artists[0].name}
 								</span>
 							</span>
 						</div>
 					</td>
-					<td style={{ paddingTop: "18px", width: "100px" }}>{music.track.album.name}</td>
+					<td style={{ paddingTop: "18px", width: "100px" }}>
+						{music.track.album.name.slice(0, 25) + "..."}
+					</td>
 					<td>
 						<AudioPlayer
 							style={{
@@ -75,11 +79,15 @@ const Playlist = ({ index, music, liked, handleAddToFavorites }) => {
 					</td>
 
 					<td style={{ paddingTop: "18px" }}>
-						<span
-							onClick={() => handleAddToFavorites(music.track.id)}
-							style={{ cursor: "pointer" }}>
-							{liked ? "liked" : "disliked"}
-						</span>
+						<input
+							type="checkbox"
+							className="classjon"
+							id={music.track.name + music.track.id}
+						/>
+						<label htmlFor={music.track.name + music.track.id}>
+							<FaRegHeart className="dislike" />
+							<FaHeart className="like" />
+						</label>
 					</td>
 					<td style={{ paddingTop: "18px" }}>
 						{"0" +

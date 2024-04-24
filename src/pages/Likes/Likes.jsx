@@ -5,8 +5,8 @@ import AsideLeft from "../../components/Aside-left/AsideLeft";
 import AsideRight from "../../components/Aside-right/AsideRight";
 import AudioPlayer from "../../components/Player/AudioPlayer";
 import { ads, likesIcon, play, profilePic } from "../../assets/images/images";
-import { useNavigate, useParams } from "react-router-dom";
-import { usePlaylistStore } from "../../app/playlistStore";
+import { FaRegHeart } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 
 const ClientID = "d5dd08dd0c134753938cf2e40ebfb597";
 const ClientSecret = "e07ac3a41f604a2f92387f1b8288ce01";
@@ -31,43 +31,25 @@ const getToken = async () => {
 	}
 };
 
-const Likes = ({}) => {
-	const navigate = useNavigate();
-	const [playlist, setPlaylist] = useState([]);
+const Likes = () => {
 	const [music, setMusic] = useState([]);
-	const [liked, setLiked] = useState(false);
-	const { id } = useParams();
 
-	const openPlayList = async () => {
+	const likedMusic = async () => {
 		try {
-			const res = await fetch(`https://api.spotify.com/v1/playlists/${id}`, {
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: localStorage.getItem("access_token"),
-				},
-			});
+			const res = await fetch(
+				`https://api.spotify.com/v1/playlists/37i9dQZF1DXd6C0zt0Jzs9`,
+				{
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: localStorage.getItem("access_token"),
+					},
+				}
+			);
 			const data = await res.json();
+			console.log(data.tracks.items);
 
-			setPlaylist(data);
-		} catch (error) {
-			console.log(error.message);
-		}
-	};
-
-	const openMusic = async () => {
-		try {
-			const res = await fetch(`https://api.spotify.com/v1/playlists/${id}`, {
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: localStorage.getItem("access_token"),
-				},
-			});
-			const data = await res.json();
-			// console.log(data);
-
-			setMusic(data.tracks.items);
+			setMusic(data.tracks.items.slice(0, 6));
 		} catch (error) {
 			console.log(error.message);
 		}
@@ -75,11 +57,11 @@ const Likes = ({}) => {
 
 	useEffect(() => {
 		getToken();
-		openPlayList();
-		openMusic();
+		// openPlayList();
+		likedMusic();
 	}, []);
 
-	const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+	// const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
 	return (
 		<div>
@@ -307,52 +289,65 @@ const Likes = ({}) => {
 											</th>
 										</tr>
 									</thead>
-									{favorites.map((music, index) => (
-										<tbody key={music.id}>
+									{music.map((music, index) => (
+										<tbody key={music.track.id}>
 											<tr>
-												<td>
-													<button
-														style={{
-															background: "none",
-															border: "none",
-															outline: "none",
-															cursor: "pointer",
-														}}>
-														<img src={play} alt="" width={50} />
-													</button>
-												</td>
 												<td style={{ textAlign: "center", paddingTop: "18px" }}>
 													{index + 1}
 												</td>
-												<td
-													style={{
-														display: "flex",
-														alignItems: "center",
-														gap: "10px",
-													}}>
-													<img
-														src={"music.track.album.images[0].url"}
-														alt=""
-														width={52}
-														height={52}
-													/>
-													<span
+												<td>
+													<div
 														style={{
 															display: "flex",
-															flexDirection: "column",
+															alignItems: "center",
+															gap: "10px",
 														}}>
-														<span>{music.track.name}</span>
-														<span style={{ fontSize: "12px", color: "gray" }}>
-															{music.track.artists[0].name}
+														<img
+															src={music.track.album.images[0].url}
+															alt=""
+															width={52}
+															height={52}
+														/>
+														<span
+															style={{
+																display: "flex",
+																flexDirection: "column",
+															}}>
+															<span style={{ width: "100px" }}>
+																{music.track.name.slice(0, 25)}
+															</span>
+															<span style={{ fontSize: "12px", color: "gray" }}>
+																{music.track.artists[0].name}
+															</span>
 														</span>
-													</span>
+													</div>
 												</td>
-												<td style={{ paddingTop: "18px" }}>
-													{"music.track.album.name"}
+												<td style={{ paddingTop: "18px", width: "100px" }}>
+													{music.track.album.name.slice(0, 25) + "..."}
+												</td>
+												<td>
+													<AudioPlayer
+														style={{
+															width: "100%",
+															background: "none",
+															color: "white",
+														}}
+														src={music.track.preview_url}
+														onPlay={(e) => console.log("onPlay")}
+														// other props here
+													/>
 												</td>
 
 												<td style={{ paddingTop: "18px" }}>
-													<span>{liked ? "liked" : "disliked"}</span>
+													<input
+														type="checkbox"
+														className="classjon"
+														id={music.track.name + music.track.id}
+													/>
+													<label htmlFor={music.track.name + music.track.id}>
+														<FaHeart className="dislike" />
+														<FaHeart className="like" />
+													</label>
 												</td>
 												<td style={{ paddingTop: "18px" }}>
 													{"0" +
